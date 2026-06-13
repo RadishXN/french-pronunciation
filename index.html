@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>法语发音规则 (发音引擎优化版)</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f4f7f6;
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+        }
+        p.desc {
+            text-align: center;
+            color: #555;
+            margin-bottom: 20px;
+            font-size: 1em;
+            background: #fff;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        th, td {
+            padding: 12px 15px;
+            border: 1px solid #eaeaea;
+            text-align: left;
+            vertical-align: middle;
+        }
+        th {
+            background-color: #34495e;
+            color: white;
+            font-weight: bold;
+        }
+        
+        /* 字母分类的背景色区隔 */
+        .group-a { background-color: #fdfbf7; }
+        .group-e { background-color: #f9fbfd; }
+        .group-i { background-color: #fdfdfa; }
+        .group-o { background-color: #fdf9f9; }
+        .group-u { background-color: #faf8fc; }
+        .group-c { background-color: #f8f9f9; }
+        
+        /* 独立点击按钮的样式 */
+        .sound-btn, .word-btn {
+            display: inline-flex;
+            align-items: center;
+            background-color: #ffffff;
+            border: 1px solid #ced4da;
+            padding: 4px 10px;
+            margin: 3px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+            font-weight: 500;
+            user-select: none;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+        
+        /* 音标按钮悬停：黄色系 */
+        .sound-btn:hover {
+            background-color: #fff3cd;
+            border-color: #ffeeba;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .sound-btn:active { transform: translateY(0); }
+
+        /* 单词按钮悬停：蓝色系 */
+        .word-btn:hover {
+            background-color: #e2eef9;
+            border-color: #b8daff;
+            color: #004085;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .word-btn:active { transform: translateY(0); }
+
+        .play-icon {
+            font-size: 0.8em;
+            margin-left: 6px;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>法语发音规则总结 (发音引擎优化版)</h1>
+    <p class="desc">
+        💡 <b>使用说明：</b>已对底层发音映射进行优化，彻底解决单音标被引擎误读为字母名的问题。<br>
+        点击单独的 <b>音标小药丸</b> 即可只听该音素；点击单独的 <b>单词小药丸</b> 即可只听该单词。
+    </p>
+
+    <table id="pronunciationTable">
+        <thead>
+            <tr>
+                <th>字母分类</th>
+                <th>字母 / 符号组合</th>
+                <th>核心发音 (点击单读)</th>
+                <th>发音要诀与说明</th>
+                <th>示例单词 (点击单读)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- A 类 -->
+            <tr class="group-a">
+                <td>A 类</td><td>A, a, à, â</td>
+                <td><span class="sound-btn" data-sound="ah">/a/ <span class="play-icon">🔊</span></span></td>
+                <td>开口度中等，口型固定无滑动</td>
+                <td>
+                    <span class="word-btn" data-words="chat">chat <span class="play-icon">🔊</span></span>
+                    <span class="word-btn" data-words="là">là <span class="play-icon">🔊</span></span>
+                    <span class="word-btn" data-words="pâte">pâte <span class="play-icon">🔊</span></span>
+                </td>
+            </tr>
+            <tr class="group-a">
+                <td>A 类</td><td>AI, ai</td>
+                <td>
+                    <span class="sound-btn" data-sound="et">/e/ <span class="play-icon">🔊</span></span> 或 
+                    <span class="sound-btn" data-sound="est">/ɛ/ <span class="play-icon">🔊</span></span>
+                </td>
+                <td>相当于发 é 或 è 的音</td>
+                <td>
+                    <span class="word-btn" data-words="lait">lait <span class="play-icon">🔊</span></span>
+                    <span class="word-btn" data-words="aimer">aimer <span class="play-icon">🔊</span></span>
+                </td>
+            </tr>
+            <tr class="group-a">
+                <td>A 类</td><td>AU, au / EAU</td>
+                <td><span class="sound-btn" data-sound="au">/o/ <span class="play-icon">🔊</span></span></td>
+                <td>嘴唇拢圆，向前突出，发类似“哦”的音</td>
+                <td>
+                    <span class="word-btn" data-words="auto">auto <span class="play-icon">🔊</span></span>
+                    <span class="word-btn" data-words="beau">beau <span class="play-icon">🔊</span></span>
+                </td>
+            </tr>
+            <tr class="group-a">
+                <td>A 类</td><td>AN, AM</td>
+                <td><span class="sound-btn" data-sound="en">/ɑ̃/ <span class="play-icon">🔊</span></span></td>
+                <td>鼻化元音：保持A的口型，气流走鼻腔</td>
+                <td>
+                    <span class="word-btn" data-words="France">France <span class="play-icon">🔊</span></span>
+                    <span class="word-btn" data-words="champ">champ <span class="play-icon">🔊</span></span>
+                </td>
+            </tr>
+            <tr class="group-a">
+                <td>A 类</td><td>AIN, AIM</td>
+                <td><span class="sound-btn" data-sound="hein">/ɛ̃/ <span class="play-icon">🔊</span></span></td>
+                <td>鼻化元音：嘴角向两边咧开，走鼻腔</td>
+                <td>
+                    <span class="word-btn" data-words="pain">pain <span class="play-icon">🔊</span></span>
+                    <span class="word-btn" data-words="faim">faim <span class="play-icon">🔊</span></span>
+                </td>
+            </tr>
+
+            <!-- E 类 -->
+            <tr class="group-e">
+                <td>E 类</td><td>E, e</td>
+                <td>
+                    <span class="sound-btn" data-sound="e">/ə/ <span class="play-icon">🔊</span></span> 或 
+                    <span class="sound-btn" data-sound="est">/ɛ/ <span class="play-icon">🔊</span></span>
+                </td>
+                <td>单音节词尾发/ə/，非词尾重读发/ɛ/</td>
+                <td>
+                    <span class="word-btn" data-words="le">le <span class="play-icon">🔊</span></span>
+                    <span class="word-btn" data-words="me">me <span class="play-icon">🔊</span></span>
+                    <span class="word-btn" data-words="chef">chef <span class="play-icon">🔊</span></span>
+                </td>
+            </tr>
+            <tr class="group-e">
+                <td>E 类</td><td>é, er, ez</td>
+                <td><span class="sound-btn" data-sound="et">/e/ <span class="play-icon">🔊</span></span></td>
+                <td>闭口音，嘴角向两边拉开，发音清脆</td>
+                <td>
+                    <span class="word-btn" data-words="bébé">bébé <span class="play-icon">🔊</span></span>
+                    <span class="word-btn" data-words="parler">parler <span class="play-icon">🔊</span></span>
+                </td>
+            </tr>
+            <tr class="group-e">
+                <td>E 类</td><td>è, ê, ë</td>
+                <td><span class="sound-btn" data-sound="est">/ɛ/ <span class="play-icon">🔊</span></span></td>
+                <td>开口音，口型比 é 略大</td>
+                <td>
+                    <span class="word-btn" data-words="père">père <span class="play-icon">🔊</span></span>
+                    <span class="word-btn" data-words="fête">fête <span class="play-icon">🔊</span></span>
+                </td>
+            </tr>
+            <tr class="group-e">
+                <td>E 类</td><td>EU, eu / ŒU</td>
+                <td>
+                    <span class="sound-btn" data-sound="eux">/ø/ <span class="play-icon">🔊</span></span> 或 
+                    <span class="sound-btn" data-sound="eu">/œ/ <span class="play-icon">🔊</span></span>
+                </td>
+                <td>舌位在 /e/，但双唇必须收圆向前突出</td>
+                <td>
+                    <span class="word-btn" data-words="bleu">bleu <span class="play-icon">🔊</span></span>
+                    <span class="word-btn" data-words="fleur">fleur <span class="play-icon">🔊</span></span>
+                </td>
+            </tr>
+            <tr class="group-e">
+                <td>E 类</td><td>EI, ei</td>
+                <td><span class="sound-btn" data-sound="est">/ɛ/ <span class="play-icon">🔊</span></span></td>
+                <td>发音等同于 è</td>
+                <td>
+                    <span class="word-btn" data-words="neige">neige <span class="play-icon">🔊</span></span>
+                    <span class="word-btn" data-words="treize">treize <span class="play-icon">🔊</span></span>
+                </td>
+            </tr>
+            <tr class="group-e">
+                <td>E 类</td><td>EN, EM</td>
+                <td><span class="sound-btn" data-sound="en">/ɑ̃/ <span class="play-icon">🔊</span></span></td>
+                <td>鼻化元音：发音同 AN/AM（似“昂”）</td>
+                <td>
+                    <span class="word-btn" data-words="enfant">enfant <span class="play-icon">🔊</span></span>
+                    <span class="word-btn" data-words="temps">temps <span class="play-icon">🔊</span></span>
+                </td>
+            </tr>
+            <tr class="group-e">
+                <td>E 类</td><td>EIN, EIM</td>
+                <td><span class="sound-btn" data-sound="hein">/ɛ̃/ <span class="play-icon">🔊</span></span></td>
+                <td>鼻化元音：发音同 AIN/AIM（似“安”）</td>
+                <td>
+                    <span class="word-btn" data-words="plein">plein <span class="play-icon">🔊</span></span>
+                    <span class="word-btn" data-words="Reims">Reims <span class="play-icon">🔊</span></span>
+                </td>
+            </tr>
+
+            <!-- I / Y 类 -->
+            <tr class="group-i">
+                <td>I / Y 类</td><td>I, i, î, Y, y</td>
+                <td><span class="sound-btn" data-sound="i">/i/ <span class="play-icon">🔊</span></span></td>
+                <td>唇形扁平，保持“咬牙切齿”的微笑状</td>
+                <td>
+                    <span class="word-btn" data-words="Paris">Paris <span class="play-icon">🔊</span></span>
+                    <span class="word-btn" data-words="style">style <span class="play-icon">🔊</span></span>
+                </td>
+            </tr>
+            <tr class="group-i">
+                <td>I / Y 类</td><td>IN, IM / YN, YM</td>
+                <td><span class="sound-btn" data-sound="hein">/ɛ̃/ <span class="play-icon">🔊</span></span></td>
+                <td>鼻化元音：发音同 AIN/EIN（似“安”）</td>
+                <td>
+                    <span class="word-btn" data-words="matin">matin <span class="play-icon">🔊</span></span>
+                    <span class="word-btn" data-words="timbre">timbre <span class="play-icon">🔊</span></span>
+                </td>
+            </tr>
+            <tr class="group-i">
+                <td>I / Y 类</td><td>IL, ILL</td>
+                <td>
+                    <span class="sound-btn" data-sound="ye">/j/ <span class="play-icon">🔊</span></span> 或 
+                    <span class="sound-btn" data-sound="il">/il/ <span class="play-icon">🔊</span></span>
+                </td>
+                <td>元音后发半元音/j/，辅音后大多发/il/</td>
+                <td>
+                    <span class="word-btn" data-words="fille">fille <span class="play-icon">🔊</span></span>
+                    <span class="word-btn" data-words="travail">travail <span class="play-icon">🔊</span></span>
+                </td>
+            </tr>
+
+            <!-- O 类 -->
+            <tr class="group-o">
+                <td>O 类</td><td>O, o, ô</td>
+                <td>
+                    <span class="sound-btn" data-sound="au">/o/ <span class="play-icon">🔊</span></span> 或 
+                    <span class="sound-btn" data-sound="o">/ɔ/ <span class="play-icon">🔊</span></span>
+                </td>
+                <td>嘴唇拢圆，向前用力突出</td>
+                <td>
+                    <span class="word-btn" data-words="photo">photo <span class="play-icon">🔊</span></span>
+                    <span class="word-btn" data-words="moto">moto <span class="play-icon">🔊</span></span>
+                </td>
+            </tr>
+            <tr class="group-o">
+                <td>O 类</td><td>OU, ou</td>
+                <td><span class="sound-btn" data-sound="ou">/u/ <span class="play-icon">🔊</span></span></td>
+                <td>双唇最大限度突出，发纯正的“乌”音</td>
+                <td>
+                    <span class="word-btn" data-words="amour">amour <span class="play-icon">🔊</span></span>
+                    <span class="word-btn" data-words="fou">fou <span class="play-icon">🔊</span></span>
+                </td>
+            </tr>
+            <tr class="group-o">
+                <td>O 类</td><td>OI, oi</td>
+                <td><span class="sound-btn" data-sound="oua">/wa/ <span class="play-icon">🔊</span></span></td>
+                <td>圆唇迅速过渡到开口，发“哇”音</td>
+                <td>
+                    <span class="word-btn" data-words="moi">moi <span class="play-icon">🔊</span></span>
+                    <span class="word-btn" data-words="soir">soir <span class="play-icon">🔊</span></span>
+                </td>
+            </tr>
+            <tr class="group-o">
+                <td>O 类</td><td>ON, OM</td>
+                <td><span class="sound-btn" data-sound="on">/ɔ̃/ <span class="play-icon">🔊</span></span></td>
+                <td>鼻化元音：保持/o/口型，气流走鼻腔</td>
+                <td>
+                    <span class="word-btn" data-words="nom">nom <span class="play-icon">🔊</span></span>
+                    <span class="word-btn" data-words="bon">bon <span class="play-icon">🔊</span></span>
+                </td>
+            </tr>
+
+            <!-- U 类 -->
+            <tr class="group-u">
+                <td>U 类</td><td>U, u, û, ù</td>
+                <td><span class="sound-btn" data-sound="u">/y/ <span class="play-icon">🔊</span></span></td>
+                <td>舌尖抵下齿，双唇突出收圆（似拼音ü）</td>
+                <td>
+                    <span class="word-btn" data-words="tu">tu <span class="play-icon">🔊</span></span>
+                    <span class="word-btn" data-words="sur">sur <span class="play-icon">🔊</span></span>
+                </td>
+            </tr>
+            <tr class="group-u">
+                <td>U 类</td><td>UN, UM</td>
+                <td><span class="sound-btn" data-sound="un">/œ̃/ <span class="play-icon">🔊</span></span></td>
+                <td>鼻化元音：双唇突出，气流走鼻腔</td>
+                <td>
+                    <span class="word-btn" data-words="un">un <span class="play-icon">🔊</span></span>
+                    <span class="word-btn" data-words="parfum">parfum <span class="play-icon">🔊</span></span>
+                </td>
+            </tr>
+
+            <!-- 特殊辅音类 -->
+            <tr class="group-c">
+                <td>特殊辅音</td><td>C, c</td>
+                <td>
+                    <span class="sound-btn" data-sound="ke">/k/ <span class="play-icon">🔊</span></span> 或 
+                    <span class="sound-btn" data-sound="se">/s/ <span class="play-icon">🔊</span></span>
+                </td>
+                <td>在a,o,u前发/k/；在e,i,y前发/s/</td>
+                <td>
+                    <span class="word-btn" data-words="café">café <span class="play-icon">🔊</span></span>
+                    <span class="word-btn" data-words="merci">merci <span class="play-icon">🔊</span></span>
+                </td>
+            </tr>
+            <tr class="group-c">
+                <td>特殊辅音</td><td>ç (软音符)</td>
+                <td><span class="sound-btn" data-sound="se">/s/ <span class="play-icon">🔊</span></span></td>
+                <td>永远发 /s/</td>
+                <td>
+                    <span class="word-btn" data-words="ça va">ça va <span class="play-icon">🔊</span></span>
+                    <span class="word-btn" data-words="leçon">leçon <span class="play-icon">🔊</span></span>
+                </td>
+            </tr>
+            <tr class="group-c">
+                <td>特殊辅音</td><td>CH, ch</td>
+                <td><span class="sound-btn" data-sound="che">/ʃ/ <span class="play-icon">🔊</span></span></td>
+                <td>舌面抬高，发类似“诗”的音</td>
+                <td>
+                    <span class="word-btn" data-words="Chine">Chine <span class="play-icon">🔊</span></span>
+                    <span class="word-btn" data-words="chef">chef <span class="play-icon">🔊</span></span>
+                </td>
+            </tr>
+            <tr class="group-c">
+                <td>特殊辅音</td><td>G, g</td>
+                <td>
+                    <span class="sound-btn" data-sound="gue">/g/ <span class="play-icon">🔊</span></span> 或 
+                    <span class="sound-btn" data-sound="je">/ʒ/ <span class="play-icon">🔊</span></span>
+                </td>
+                <td>在a,o,u前发/g/；在e,i,y前发/ʒ/</td>
+                <td>
+                    <span class="word-btn" data-words="gare">gare <span class="play-icon">🔊</span></span>
+                    <span class="word-btn" data-words="gilet">gilet <span class="play-icon">🔊</span></span>
+                </td>
+            </tr>
+            <tr class="group-c">
+                <td>特殊辅音</td><td>GN, gn</td>
+                <td><span class="sound-btn" data-sound="gne">/ɲ/ <span class="play-icon">🔊</span></span></td>
+                <td>舌面紧贴硬腭，发类似“捏”的鼻音</td>
+                <td>
+                    <span class="word-btn" data-words="montagne">montagne <span class="play-icon">🔊</span></span>
+                </td>
+            </tr>
+            <tr class="group-c">
+                <td>特殊辅音</td><td>H, h</td>
+                <td><span style="color:#999; padding: 4px 10px;">不发音</span></td>
+                <td>永远作无声处理</td>
+                <td>
+                    <span class="word-btn" data-words="homme">homme <span class="play-icon">🔊</span></span>
+                    <span class="word-btn" data-words="thé">thé <span class="play-icon">🔊</span></span>
+                </td>
+            </tr>
+            <tr class="group-c">
+                <td>特殊辅音</td><td>J, j</td>
+                <td><span class="sound-btn" data-sound="je">/ʒ/ <span class="play-icon">🔊</span></span></td>
+                <td>舌面抬高，声带振动（不发拼音j）</td>
+                <td>
+                    <span class="word-btn" data-words="je">je <span class="play-icon">🔊</span></span>
+                    <span class="word-btn" data-words="jour">jour <span class="play-icon">🔊</span></span>
+                </td>
+            </tr>
+            <tr class="group-c">
+                <td>特殊辅音</td><td>Q, q / QU</td>
+                <td><span class="sound-btn" data-sound="que">/k/ <span class="play-icon">🔊</span></span></td>
+                <td>常搭配u出现，永远发 /k/</td>
+                <td>
+                    <span class="word-btn" data-words="qui">qui <span class="play-icon">🔊</span></span>
+                    <span class="word-btn" data-words="coq">coq <span class="play-icon">🔊</span></span>
+                </td>
+            </tr>
+            <tr class="group-c">
+                <td>特殊辅音</td><td>R, r</td>
+                <td><span class="sound-btn" data-sound="re">/ʁ/ <span class="play-icon">🔊</span></span></td>
+                <td>法语标志性“小舌音”，气流轻擦小舌</td>
+                <td>
+                    <span class="word-btn" data-words="Paris">Paris <span class="play-icon">🔊</span></span>
+                    <span class="word-btn" data-words="très">très <span class="play-icon">🔊</span></span>
+                </td>
+            </tr>
+            <tr class="group-c">
+                <td>特殊辅音</td><td>S, s</td>
+                <td>
+                    <span class="sound-btn" data-sound="se">/s/ <span class="play-icon">🔊</span></span> 或 
+                    <span class="sound-btn" data-sound="ze">/z/ <span class="play-icon">🔊</span></span>
+                </td>
+                <td>夹在两元音之间发 /z/，其余发/s/</td>
+                <td>
+                    <span class="word-btn" data-words="salut">salut <span class="play-icon">🔊</span></span>
+                    <span class="word-btn" data-words="rose">rose <span class="play-icon">🔊</span></span>
+                </td>
+            </tr>
+            <tr class="group-c">
+                <td>特殊辅音</td><td>W, w</td>
+                <td><span class="sound-btn" data-sound="ve">/v/ <span class="play-icon">🔊</span></span></td>
+                <td>多用于外来词，等同于V</td>
+                <td>
+                    <span class="word-btn" data-words="wagon">wagon <span class="play-icon">🔊</span></span>
+                </td>
+            </tr>
+            <tr class="group-c">
+                <td>特殊辅音</td><td>Z, z</td>
+                <td><span class="sound-btn" data-sound="ze">/z/ <span class="play-icon">🔊</span></span></td>
+                <td>舌尖靠近齿龈，声带振动，发浊音</td>
+                <td>
+                    <span class="word-btn" data-words="zéro">zéro <span class="play-icon">🔊</span></span>
+                    <span class="word-btn" data-words="zone">zone <span class="play-icon">🔊</span></span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <script>
+        if ('speechSynthesis' in window) {
+            
+            function playSound(textToRead) {
+                window.speechSynthesis.cancel(); 
+                const utterance = new SpeechSynthesisUtterance(textToRead);
+                utterance.lang = 'fr-FR'; 
+                utterance.rate = 0.85;    
+                window.speechSynthesis.speak(utterance);
+            }
+
+            const soundBtns = document.querySelectorAll('.sound-btn');
+            soundBtns.forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    const soundToRead = this.getAttribute('data-sound');
+                    playSound(soundToRead);
+                });
+            });
+
+            const wordBtns = document.querySelectorAll('.word-btn');
+            wordBtns.forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    const wordsToRead = this.getAttribute('data-words');
+                    playSound(wordsToRead);
+                });
+            });
+
+        } else {
+            alert("抱歉，你的浏览器不支持网页语音合成功能。");
+        }
+    </script>
+</body>
+</html>
