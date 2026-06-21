@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -58,9 +57,10 @@
         
         /* 声音分类的背景色区隔 */
         .vowel-pure { background-color: #ebf8ff; }
+        .vowel-semi { background-color: #e6fffa; } 
         .vowel-nasal { background-color: #faf5ff; }
         .consonant-group { background-color: #f0fff4; }
-        .silent-group { background-color: #f7fafc; color: #718096; }
+        .rule-group { background-color: #fff5f5; } /* 新增：底层法则专属色 */
         
         .category-label {
             font-weight: bold;
@@ -115,7 +115,7 @@
 </head>
 <body>
 
-    <h1>法语发音映射表 (降维记忆版)</h1>
+    <h1>法语发音映射表 (终极聚合记忆版)</h1>
     <p class="desc">
         💡 <b>底层逻辑：</b>不要记字母怎么读，而是记<b>目标声音</b>对应哪些拼写马甲。<br>
         点击单独的 <span style="color:#dd6b20;font-weight:bold;">声音药丸</span> 听纯正音素；点击单独的 <span style="color:#3182ce;font-weight:bold;">单词药丸</span> 听标准朗读。
@@ -137,7 +137,7 @@
                 <td><span class="category-label">纯元音</span></td>
                 <td><span class="sound-btn" data-sound="ah">/a/ <span class="play-icon">🔊</span></span></td>
                 <td class="spell-highlight">a, à, â</td>
-                <td>开口度中等，口型固定无滑动。</td>
+                <td>开口度中等，口型固定无滑动。（带音符不改变本身发音）</td>
                 <td><span class="word-btn" data-words="chat">chat 🔊</span> <span class="word-btn" data-words="là">là 🔊</span></td>
             </tr>
             <tr class="vowel-pure">
@@ -146,9 +146,9 @@
                     <span class="sound-btn" data-sound="et">/e/ 🔊</span> 
                     <span class="sound-btn" data-sound="est">/ɛ/ 🔊</span>
                 </td>
-                <td class="spell-highlight">é, è, ê, er, ez, ai, ei</td>
-                <td><b>闭口/开口 E 家族：</b>不管带什么帽子、无论是不是ai/ei组合，结果全在这个区间。</td>
-                <td><span class="word-btn" data-words="bébé">bébé 🔊</span> <span class="word-btn" data-words="lait">lait 🔊</span> <span class="word-btn" data-words="parler">parler 🔊</span></td>
+                <td class="spell-highlight">é, è, ê, er, ez, ed, es, ai, ei</td>
+                <td><b>E 家族池：</b>不管带什么帽子、无论是不是ai/ei，或者动词词尾(er/ez/ed/es)，全在开口/闭口E的区间。</td>
+                <td><span class="word-btn" data-words="bébé">bébé 🔊</span> <span class="word-btn" data-words="lait">lait 🔊</span> <span class="word-btn" data-words="aller">aller 🔊</span> <span class="word-btn" data-words="pied">pied 🔊</span></td>
             </tr>
             <tr class="vowel-pure">
                 <td><span class="category-label">纯元音</span></td>
@@ -156,6 +156,13 @@
                 <td class="spell-highlight">i, î, y</td>
                 <td>唇形扁平，保持微笑状。Y在法语就是"希腊语的i"。</td>
                 <td><span class="word-btn" data-words="Paris">Paris 🔊</span> <span class="word-btn" data-words="style">style 🔊</span></td>
+            </tr>
+            <tr class="vowel-pure">
+                <td><span class="category-label">独立元音</span></td>
+                <td><span class="sound-btn" data-sound="i">独立发音 <span class="play-icon">🔊</span></span></td>
+                <td class="spell-highlight">ï, ë (分音符)</td>
+                <td><b>分音符结界：</b>头上顶着两点，表示必须与前面的元音彻底断开，自己强行独立发音。</td>
+                <td><span class="word-btn" data-words="Noël">Noël 🔊</span> <span class="word-btn" data-words="maïs">maïs 🔊</span></td>
             </tr>
             <tr class="vowel-pure">
                 <td><span class="category-label">纯元音</span></td>
@@ -185,19 +192,35 @@
                 <td>舌位在e，双唇必须收圆向前突出。</td>
                 <td><span class="word-btn" data-words="bleu">bleu 🔊</span> <span class="word-btn" data-words="fleur">fleur 🔊</span></td>
             </tr>
-            <tr class="vowel-pure">
-                <td><span class="category-label">半元音</span></td>
+
+            <!-- 半元音组 -->
+            <tr class="vowel-semi">
+                <td><span class="category-label">半元音(滑音)</span></td>
+                <td><span class="sound-btn" data-sound="huit">/ɥ/ <span class="play-icon">🔊</span></span></td>
+                <td class="spell-highlight">u + 元音</td>
+                <td><b>U的滑音：</b>保持发/y/("淤")的嘴型，极快地滑向后面的元音，产生摩擦。</td>
+                <td><span class="word-btn" data-words="nuit">nuit 🔊</span> <span class="word-btn" data-words="pluie">pluie 🔊</span></td>
+            </tr>
+            <tr class="vowel-semi">
+                <td><span class="category-label">半元音(滑音)</span></td>
+                <td><span class="sound-btn" data-sound="oui">/w/ <span class="play-icon">🔊</span></span></td>
+                <td class="spell-highlight">ou + 元音</td>
+                <td><b>OU的滑音：</b>保持发/u/("乌")的嘴型，极快滑向后面的元音 (英语的/w/)。</td>
+                <td><span class="word-btn" data-words="Louis">Louis 🔊</span> <span class="word-btn" data-words="louer">louer 🔊</span></td>
+            </tr>
+            <tr class="vowel-semi">
+                <td><span class="category-label">半元音(滑音)</span></td>
+                <td><span class="sound-btn" data-sound="ye">/j/ <span class="play-icon">🔊</span></span></td>
+                <td class="spell-highlight">i + 元音, y, il, ill</td>
+                <td><b>I的滑音与双L降级：</b>保持微笑嘴型极快滑动。词尾的il/ill常丧失辅音地位，降级成滑音。</td>
+                <td><span class="word-btn" data-words="Lyon">Lyon 🔊</span> <span class="word-btn" data-words="fille">fille 🔊</span> <span class="word-btn" data-words="travail">travail 🔊</span></td>
+            </tr>
+            <tr class="vowel-semi">
+                <td><span class="category-label">半元音(滑音)</span></td>
                 <td><span class="sound-btn" data-sound="oua">/wa/ <span class="play-icon">🔊</span></span></td>
                 <td class="spell-highlight">oi, oî</td>
                 <td>圆唇迅速过渡到开口，发类似“哇”的惊讶音。</td>
                 <td><span class="word-btn" data-words="moi">moi 🔊</span> <span class="word-btn" data-words="soir">soir 🔊</span></td>
-            </tr>
-            <tr class="vowel-pure">
-                <td><span class="category-label">半元音</span></td>
-                <td><span class="sound-btn" data-sound="ye">/j/ <span class="play-icon">🔊</span></span></td>
-                <td class="spell-highlight">il, ill</td>
-                <td><b>双 L 降级：</b>两个L在一起常失去辅音地位，降级成半元音(耶)。</td>
-                <td><span class="word-btn" data-words="fille">fille 🔊</span> <span class="word-btn" data-words="travail">travail 🔊</span></td>
             </tr>
 
             <!-- 鼻化元音组 -->
@@ -211,9 +234,9 @@
             <tr class="vowel-nasal">
                 <td><span class="category-label">扁口鼻音</span></td>
                 <td><span class="sound-btn" data-sound="hein">/ɛ̃/ <span class="play-icon">🔊</span></span></td>
-                <td class="spell-highlight">in, im, ain, aim, ein, yn</td>
-                <td><b>I元素全家桶：</b>只要带I和鼻辅音的组合，不管多长统统发“安”。</td>
-                <td><span class="word-btn" data-words="matin">matin 🔊</span> <span class="word-btn" data-words="pain">pain 🔊</span> <span class="word-btn" data-words="plein">plein 🔊</span></td>
+                <td class="spell-highlight">in, im, ain, aim, ein, eim, yn, ym</td>
+                <td><b>I元素全家桶：</b>只要带I/Y和鼻辅音的组合，不管多长统统发“安”。</td>
+                <td><span class="word-btn" data-words="matin">matin 🔊</span> <span class="word-btn" data-words="faim">faim 🔊</span> <span class="word-btn" data-words="plein">plein 🔊</span></td>
             </tr>
             <tr class="vowel-nasal">
                 <td><span class="category-label">圆唇鼻音</span></td>
@@ -223,41 +246,83 @@
                 <td><span class="word-btn" data-words="bonjour">bonjour 🔊</span> <span class="word-btn" data-words="nom">nom 🔊</span></td>
             </tr>
             <tr class="vowel-nasal">
-                <td><span class="category-label">圆唇鼻音</span></td>
-                <td><span class="sound-btn" data-sound="un">/œ̃/ <span class="play-icon">🔊</span></span></td>
-                <td class="spell-highlight">un, um</td>
-                <td>双唇突出，气流走鼻腔（现代发音常与 /ɛ̃/ 混同）。</td>
-                <td><span class="word-btn" data-words="un">un 🔊</span> <span class="word-btn" data-words="parfum">parfum 🔊</span></td>
+                <td><span class="category-label">破鼻音</span></td>
+                <td><span class="sound-btn" data-sound="am">/am/ 或 /an/ <span class="play-icon">🔊</span></span></td>
+                <td class="spell-highlight">emm, enn</td>
+                <td><b>双写破功：</b>m/n双写时丧失鼻音效果，恢复原本辅音并带出前面的a音。</td>
+                <td><span class="word-btn" data-words="femme">femme 🔊</span></td>
+            </tr>
+            <tr class="vowel-nasal">
+                <td><span class="category-label">外来词尾</span></td>
+                <td><span class="sound-btn" data-sound="om">/ɔm/ <span class="play-icon">🔊</span></span></td>
+                <td class="spell-highlight">um (词尾)</td>
+                <td><b>英语借词：</b>词尾的um不发鼻音，发类似英语的"om"。</td>
+                <td><span class="word-btn" data-words="album">album 🔊</span> <span class="word-btn" data-words="forum">forum 🔊</span></td>
+            </tr>
+            <tr class="vowel-nasal">
+                <td><span class="category-label">复合鼻音</span></td>
+                <td><span class="sound-btn" data-sound="oin">/wɛ̃/ <span class="play-icon">🔊</span></span></td>
+                <td class="spell-highlight">oin</td>
+                <td><b>Wan音：</b>发音非常接近英语数字"one"，带有鼻腔共鸣。</td>
+                <td><span class="word-btn" data-words="loin">loin 🔊</span> <span class="word-btn" data-words="soin">soin 🔊</span></td>
+            </tr>
+            <tr class="vowel-nasal">
+                <td><span class="category-label">复合鼻音</span></td>
+                <td><span class="sound-btn" data-sound="ien">/jɛ̃/ <span class="play-icon">🔊</span></span></td>
+                <td class="spell-highlight">ien</td>
+                <td><b>I-an音：</b>前面有i时，en不发"昂"，而是变成极快滑动的"一安"。</td>
+                <td><span class="word-btn" data-words="bien">bien 🔊</span> <span class="word-btn" data-words="italien">italien 🔊</span></td>
             </tr>
 
-            <!-- 特殊辅音组 -->
+            <!-- 辅音组 -->
             <tr class="consonant-group">
                 <td><span class="category-label">辅音 /k/</span></td>
                 <td><span class="sound-btn" data-sound="que">/k/ <span class="play-icon">🔊</span></span></td>
-                <td class="spell-highlight">c (a/o/u前), qu, k</td>
-                <td><b>K的替身：</b>法语极少用K，多数情况由硬C或QU（u不发音）替代。</td>
-                <td><span class="word-btn" data-words="café">café 🔊</span> <span class="word-btn" data-words="qui">qui 🔊</span></td>
+                <td class="spell-highlight">c, qu, k, cc (a/o/u前), ch (部分)</td>
+                <td><b>K的替身：</b>qu中u永远不发音；双写cc遇硬元音(a/o/u)合体只发一个/k/；部分希腊词源ch也发/k/。</td>
+                <td><span class="word-btn" data-words="qui">qui 🔊</span> <span class="word-btn" data-words="accord">accord 🔊</span> <span class="word-btn" data-words="technique">technique 🔊</span></td>
+            </tr>
+            <tr class="consonant-group">
+                <td><span class="category-label">辅音 /g/</span></td>
+                <td><span class="sound-btn" data-sound="gue">/g/ <span class="play-icon">🔊</span></span></td>
+                <td class="spell-highlight">g (a/o/u前), gu</td>
+                <td><b>硬G保卫战：</b>g遇软元音(e/i)会变软，加上u充当盾牌(u不发音)以强制保持/g/音。</td>
+                <td><span class="word-btn" data-words="gare">gare 🔊</span> <span class="word-btn" data-words="guerre">guerre 🔊</span></td>
             </tr>
             <tr class="consonant-group">
                 <td><span class="category-label">辅音 /s/</span></td>
                 <td><span class="sound-btn" data-sound="ce">/s/ <span class="play-icon">🔊</span></span></td>
-                <td class="spell-highlight">s, ss, c (e/i前), ç, t(tion中)</td>
-                <td><b>S的替身：</b>软C和Ç强行发S音。词中两元音间必须写ss才能发/s/。</td>
-                <td><span class="word-btn" data-words="salut">salut 🔊</span> <span class="word-btn" data-words="leçon">leçon 🔊</span> <span class="word-btn" data-words="merci">merci 🔊</span></td>
+                <td class="spell-highlight">s, ss, c (e/i前), ç</td>
+                <td><b>S的替身：</b>软C和Ç强行发S音。词中两元音间必须写ss才能保住/s/不被浊化。</td>
+                <td><span class="word-btn" data-words="salut">salut 🔊</span> <span class="word-btn" data-words="français">français 🔊</span></td>
+            </tr>
+            <tr class="consonant-group">
+                <td><span class="category-label">辅音 /ks/</span></td>
+                <td><span class="sound-btn" data-sound="ks">/ks/ <span class="play-icon">🔊</span></span></td>
+                <td class="spell-highlight">cc (e/i/y前), x</td>
+                <td><b>分裂的双C：</b>第一个C遇辅音发/k/，第二个C遇软元音发/s/，合体变成/ks/。</td>
+                <td><span class="word-btn" data-words="succès">succès 🔊</span></td>
+            </tr>
+            <tr class="consonant-group">
+                <td><span class="category-label">词尾组合</span></td>
+                <td><span class="sound-btn" data-sound="sion">/sjɔ̃/ <span class="play-icon">🔊</span></span></td>
+                <td class="spell-highlight">-tion, -ssion</td>
+                <td><b>英语同源词尾：</b>这组词尾里的t强制发 /s/ 音。</td>
+                <td><span class="word-btn" data-words="nation">nation 🔊</span> <span class="word-btn" data-words="passion">passion 🔊</span></td>
             </tr>
             <tr class="consonant-group">
                 <td><span class="category-label">辅音 /z/</span></td>
                 <td><span class="sound-btn" data-sound="ze">/z/ <span class="play-icon">🔊</span></span></td>
-                <td class="spell-highlight">z, s (夹在两元音间)</td>
+                <td class="spell-highlight">z, s (两元音间)</td>
                 <td>S被两边元音同化产生浊化变成 /z/。</td>
                 <td><span class="word-btn" data-words="zéro">zéro 🔊</span> <span class="word-btn" data-words="rose">rose 🔊</span></td>
             </tr>
             <tr class="consonant-group">
                 <td><span class="category-label">辅音 /ʃ/</span></td>
                 <td><span class="sound-btn" data-sound="che">/ʃ/ <span class="play-icon">🔊</span></span></td>
-                <td class="spell-highlight">ch</td>
-                <td>等同于英语中的 sh 音（类似“诗”）。</td>
-                <td><span class="word-btn" data-words="Chine">Chine 🔊</span> <span class="word-btn" data-words="chef">chef 🔊</span></td>
+                <td class="spell-highlight">ch, sh, sch</td>
+                <td>等同于英语中的 sh 音（类似“诗”）。sh/sch多用于外来借词。</td>
+                <td><span class="word-btn" data-words="Chine">Chine 🔊</span> <span class="word-btn" data-words="shampooing">shampooing 🔊</span></td>
             </tr>
             <tr class="consonant-group">
                 <td><span class="category-label">辅音 /ʒ/</span></td>
@@ -281,13 +346,20 @@
                 <td><span class="word-btn" data-words="montagne">montagne 🔊</span> <span class="word-btn" data-words="champagne">champagne 🔊</span></td>
             </tr>
 
-            <!-- 静默组 -->
-            <tr class="silent-group">
-                <td><span class="category-label">静默(Null)</span></td>
-                <td><span class="silent-btn">不发音 🔇</span></td>
-                <td class="spell-highlight">h, 多数词尾辅音, 词尾 e</td>
-                <td><b>垃圾回收站：</b>默认执行 Drop（丢弃）协议。词尾辅音只有 C,F,L,R (长发丽人) 需要发音。</td>
-                <td><span class="word-btn" data-words="homme">homme 🔊</span> <span class="word-btn" data-words="art">art (词尾t丢弃) 🔊</span> <span class="word-btn" data-words="table">table (词尾e丢弃) 🔊</span></td>
+            <!-- 底层法则组 -->
+            <tr class="rule-group">
+                <td><span class="category-label">四大黄金法则</span></td>
+                <td><span class="silent-btn">静默(Drop) 🔇</span></td>
+                <td class="spell-highlight">词尾e / 多数词尾辅音 / h / 双写辅音</td>
+                <td><b>垃圾回收站：</b>1.词末e不发音；2.词末辅音不发音(例外"成法立人" c,r,f,l)；3.h永不发音；4.双写辅音只发一个。</td>
+                <td><span class="word-btn" data-words="fille">fille 🔊</span> <span class="word-btn" data-words="pomme">pomme 🔊</span> <span class="word-btn" data-words="homme">homme 🔊</span></td>
+            </tr>
+            <tr class="rule-group">
+                <td><span class="category-label">语流连诵</span></td>
+                <td><span class="sound-btn" data-sound="liaison">连桥滑动 <span class="play-icon">🌊</span></span></td>
+                <td class="spell-highlight">前辅音 + 后元音(或哑音h)</td>
+                <td><b>Liaison：</b>前一个词末尾(本不发音)的辅音，遇到后一个词开头的元音，瞬间复活并跨词连读。</td>
+                <td><span class="word-btn" data-words="L'amour est bleu">L'amour est bleu 🔊</span> <span class="word-btn" data-words="les amis">les amis 🔊</span></td>
             </tr>
         </tbody>
     </table>
@@ -295,7 +367,7 @@
     <script>
         if ('speechSynthesis' in window) {
             function playSound(textToRead) {
-                if(textToRead === "null") return; // 拦截静音指令
+                if(textToRead === "null" || textToRead === "liaison") return; // 拦截特殊指令
                 window.speechSynthesis.cancel(); 
                 const utterance = new SpeechSynthesisUtterance(textToRead);
                 utterance.lang = 'fr-FR'; 
